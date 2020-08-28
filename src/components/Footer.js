@@ -10,9 +10,9 @@ const FILTER_TITLES = {
 }
 
 export const Footer = (props) => {
-  const activeCount = activeNum(props.list)
-  const areAllActive = isAllActive(props.list)
-  const isEmpty = isListEmpty(props.list)
+  const activeCount = activeNum(props.state.mainList)
+  const areAllActive = isAllActive(props.state.mainList)
+  const isEmpty = isListEmpty(props.state.mainList)
   return isEmpty ? null : (
     <footer className="footer">
       <span className="todo-count">
@@ -23,9 +23,9 @@ export const Footer = (props) => {
         {Object.entries(FILTER_TITLES).map(([filter, value]) => (
           <li key={filter}>
             <button
-              className={classnames({ selected: props.currentFilter === filter })}
+              className={classnames({ selected: props.state.filter === filter })}
               style={{ cursor: "pointer" }}
-              onClick={() => props.filterChange(filter)}
+              onClick={() => props.dispatch({type: 'FILTER_CHANGE', payload: filter})}
             >
               {value}
             </button>
@@ -33,7 +33,7 @@ export const Footer = (props) => {
         ))}
       </ul>
       {areAllActive ? null : (
-        <button className="clear-completed" onClick={()=>props.clearCompleted()}>
+        <button className="clear-completed" onClick={()=>props.dispatch({type:'CLEAR_ALL'})}>
           Clear completed
         </button>
       )}

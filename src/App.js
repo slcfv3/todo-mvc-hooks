@@ -7,7 +7,7 @@ import useTodos from "./hooks/useTodos"
 import './App.css'
 
 function App() {
-  const [todos, todoList, filter, onNewTodo, onDeleteTodo, onEditTodo, onToggleTodo, onToggleAll, onFilterChange, onClearCompleted] = useTodos()
+  const [state, display, dispatch] = useTodos()
 
   return (
     <div className='todoapp'>
@@ -15,27 +15,22 @@ function App() {
         <h1>todos</h1>
         <TodoTextInput
           isNew = {true}
-          onSave={onNewTodo}
+          onSave={(text)=>dispatch({type: 'NEW_TODO', payload : text})}
           placeholder="What needs to be done"
         />
       </header>
       <section className="main">
         <ToggleAll 
-          list={todoList} 
-          toggleAll ={onToggleAll}
+          state = {state}
+          toggleAll ={dispatch}
         />
         <TodoList 
-          list={todos} 
-          newTodo={onNewTodo} 
-          deleteTodo={onDeleteTodo} 
-          editTodo={onEditTodo} 
-          toggleTodo={onToggleTodo} 
+          list={display} 
+          dispatch = {dispatch} 
         />
         <Footer
-          list={todoList}
-          currentFilter = {filter}
-          filterChange = {onFilterChange}
-          clearCompleted = {onClearCompleted}
+          state={state}
+          dispatch = {dispatch}
         />
       </section>
     </div>

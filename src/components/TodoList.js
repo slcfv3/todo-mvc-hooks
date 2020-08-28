@@ -19,7 +19,7 @@ const TodoItem = memo((props) => {
           editing
           onSave={(text) => {
             setEditing(false)
-            props.editTodo(props.id, text)
+            props.dispatch({type: 'EDIT_TODO', payload: {id:props.id , txt:text }})
           }}
         />
       ) : (
@@ -28,10 +28,14 @@ const TodoItem = memo((props) => {
             className="toggle"
             type="checkbox"
             checked={props.done}
-            onChange={()=>props.toggleTodo(props.id)}
+            onClick={()=>{
+              
+              props.dispatch({type: 'TOGGLE_TODO', payload: props.id})
+              console.log('toggle touched')}}
+              
           />
           <label onDoubleClick={() => setEditing(true)}>{props.text}</label>
-          <button className="destroy" onClick={()=>props.deleteTodo(props.id)} />
+          <button className="destroy" onClick={()=>props.dispatch({type: 'DELETE_TODO', payload : props.id })} />
         </div>
       )}
     </li>
@@ -41,17 +45,14 @@ const TodoItem = memo((props) => {
 export const TodoList = (props) => (
   <ul className="todo-list">
     {props.list.map((item) => {
-        console.log('done in list component'+ item.done)
+        
         return (
             <TodoItem 
                 key={item.id} 
                 id={item.id} 
                 text={item.text} 
                 done={item.done} 
-                newTodo={props.newTodo} 
-                deleteTodo={props.deleteTodo} 
-                toggleTodo={props.toggleTodo} 
-                editTodo={props.editTodo}
+                dispatch = {props.dispatch}
             />
           )
     })}

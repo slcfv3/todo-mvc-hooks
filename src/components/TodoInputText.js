@@ -23,9 +23,14 @@ export const TodoTextInput = ({ onSave, initialText, editing, isNew, placeholder
       onChange={(e) => setText(e.target.value)}
       onKeyDown={(e) => {
         if (e.which === 13) {
-          onSave(text.trim())
-          if(isNew)
+          
+          if(isNew){
             setText("")
+            onSave(text.trim())
+          }else{
+            onSave(text.trim())
+          }
+            
           
         }
       }}

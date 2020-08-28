@@ -1,17 +1,18 @@
 import React from "react"
 import {isAllDone, isListEmpty} from '../utils'
 
-export const ToggleAll = (props) => {
+export const ToggleAll = ({state, toggleAll}) => {
   
-  return isListEmpty(props.list) ? null : (
+  return isListEmpty(state.mainList) ? null : (
     <span>
       <input
         className="toggle-all"
         type="checkbox"
-        checked={isAllDone(props.list)}
+        checked={isAllDone(state.mainList)}
         
       />
-      <label onClick={()=>props.toggleAll()} />
+      <label onClick={()=>{
+            toggleAll({type: 'TOGGLE_ALL'})}} />
     </span>
   )
 }
